@@ -5,7 +5,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.handler.codec.mqtt.MqttEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -13,11 +12,12 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class MqttBrokerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    @Resource
-    MqttBrokerChannelHandler mqttBrokerChannelHandler;
+    final MqttBrokerChannelHandler mqttBrokerChannelHandler;
 
-    public MqttBrokerChannelInitializer() {
+    public MqttBrokerChannelInitializer(MqttBrokerChannelHandler mqttBrokerChannelHandler) {
         super();
+
+        this.mqttBrokerChannelHandler = mqttBrokerChannelHandler;
     }
 
     @Override

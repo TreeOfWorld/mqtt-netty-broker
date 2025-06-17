@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class PingMessageStrategy implements MessageStrategy {
+
     @Override
     public void sendResponseMessage(Channel channel, MqttMessage mqttMessage) {
         log.info("Received ping message, send pong message");

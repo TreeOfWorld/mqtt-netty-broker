@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ConnectAckMessageStrategy implements MessageStrategy {
+
     @Override
     public void sendResponseMessage(Channel channel, MqttMessage mqttMessage) {
 
@@ -26,6 +27,6 @@ public class ConnectAckMessageStrategy implements MessageStrategy {
         MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeader);
         log.info("返回消息:" + connAck.toString());
         channel.writeAndFlush(connAck);
-
     }
+
 }

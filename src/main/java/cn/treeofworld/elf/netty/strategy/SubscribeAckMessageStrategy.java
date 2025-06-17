@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class SubscribeAckMessageStrategy implements MessageStrategy {
+
     @Override
     public void sendResponseMessage(Channel channel, MqttMessage mqttMessage) {
         log.info("SubscribeAckMessageStrategy");
@@ -29,9 +30,9 @@ public class SubscribeAckMessageStrategy implements MessageStrategy {
         /*---------------------------构建返回的消息---------------------------*/
         //		有效负载
         MqttSubAckPayload payloadBack = new MqttSubAckPayload(grantedQoSLevels);
-        MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.SUBACK, false, MqttQoS.AT_MOST_ONCE, false, 2+topics.size());
-        MqttSubAckMessage subAckMsg = new MqttSubAckMessage(mqttFixedHeaderBack,variableHeaderBack, payloadBack);
-        log.info("返回消息:"+subAckMsg.toString());
+        MqttFixedHeader mqttFixedHeaderBack = new MqttFixedHeader(MqttMessageType.SUBACK, false, MqttQoS.AT_MOST_ONCE, false, 2 + topics.size());
+        MqttSubAckMessage subAckMsg = new MqttSubAckMessage(mqttFixedHeaderBack, variableHeaderBack, payloadBack);
+        log.info("返回消息:" + subAckMsg.toString());
         channel.writeAndFlush(subAckMsg);
     }
 }

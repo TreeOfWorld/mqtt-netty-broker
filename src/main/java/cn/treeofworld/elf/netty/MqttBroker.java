@@ -31,12 +31,10 @@ public class MqttBroker {
     // 实际工作的线程组 多线程事件循环器:处理已经被接收的连接
     private EventLoopGroup workGroup;
 
-
     private ChannelFuture channelFuture;
     private volatile Channel channel;
 
     private final AtomicInteger nextMessageId = new AtomicInteger(1);
-
 
     public void start() {
         log.info("mqtt server start:" + mqttProps.getServerPort());
@@ -47,7 +45,11 @@ public class MqttBroker {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
 
-            serverBootstrap.group(bossGroup, workGroup).channel(NioServerSocketChannel.class).childHandler(mqttBrokerChannelInitializer).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
+            serverBootstrap.group(bossGroup, workGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(mqttBrokerChannelInitializer)
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             // 绑定端口，开始接收进来的连接
             channelFuture = serverBootstrap.bind(mqttProps.getServerPort()).sync();
@@ -69,8 +71,6 @@ public class MqttBroker {
         workGroup.shutdownGracefully();
         bossGroup = null;
         workGroup = null;
-
     }
-
 
 }
