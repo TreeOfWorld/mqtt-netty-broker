@@ -1,5 +1,6 @@
 package cn.treeofworld.elf.netty.strategy;
 
+import cn.treeofworld.elf.mqtt.SubscribeCache;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
@@ -34,5 +35,8 @@ public class SubscribeAckMessageStrategy implements MessageStrategy {
         MqttSubAckMessage subAckMsg = new MqttSubAckMessage(mqttFixedHeaderBack, variableHeaderBack, payloadBack);
         log.info("返回消息:" + subAckMsg.toString());
         channel.writeAndFlush(subAckMsg);
+
+        log.info("订阅信息：{}", mqttSubscribeMessage.payload().topicSubscriptions().get(0));
+        SubscribeCache.put(mqttSubscribeMessage.payload().topicSubscriptions().get(0).topicName(), channel.id().asLongText());
     }
 }

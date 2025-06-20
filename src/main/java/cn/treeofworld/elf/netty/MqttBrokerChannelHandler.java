@@ -22,16 +22,21 @@ public class MqttBrokerChannelHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         MqttMessage mqttMessage = (MqttMessage) msg;
         log.info("--------------------------begin---------------------------*");
-        log.info("来自终端:" + channelHandlerContext.channel().remoteAddress());
+        log.info("来自终端:" + ctx.channel().remoteAddress());
         log.info("接收消息：" + mqttMessage.toString());
+
+        // 收到的channelHandlerContext中包含终端的channel信息，这里可以根据channel信息做一些业务处理
+        log.info("channel id:{}", ctx.channel().id().asLongText());
+        // 收到的msg中包含固定头、可变头、有效载荷三个部分，这里只处理有效载荷部分
+
         try {
             MqttMessageType type = mqttMessage.fixedHeader().messageType();
             MessageStrategy messageStrategy = messageStrategyManager.getMessageStrategy(type);
             if (messageStrategy != null) {
-                messageStrategy.sendResponseMessage(channelHandlerContext.channel(), mqttMessage);
+                messageStrategy.sendResponseMessage(ctx.channel(), mqttMessage);
             }
         } catch (Exception e) {
             log.error("处理消息失败", e);

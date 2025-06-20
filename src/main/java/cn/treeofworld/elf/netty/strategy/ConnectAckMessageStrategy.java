@@ -1,5 +1,6 @@
 package cn.treeofworld.elf.netty.strategy;
 
+import cn.treeofworld.elf.mqtt.ChannelCache;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,9 @@ public class ConnectAckMessageStrategy implements MessageStrategy {
         MqttConnAckMessage connAck = new MqttConnAckMessage(mqttFixedHeaderBack, mqttConnAckVariableHeader);
         log.info("返回消息:" + connAck.toString());
         channel.writeAndFlush(connAck);
+
+        // todo channel信息保存
+        ChannelCache.put(channel.id().asLongText(), channel);
     }
 
 }
