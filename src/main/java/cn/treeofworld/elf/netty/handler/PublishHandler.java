@@ -1,16 +1,24 @@
-package cn.treeofworld.elf.netty.strategy;
+package cn.treeofworld.elf.netty.handler;
 
 import cn.treeofworld.elf.mqtt.ChannelCache;
 import cn.treeofworld.elf.mqtt.SubscribeCache;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+/**
+ * PublishHandler
+ *
+ * @author: elf
+ * @data: 2025/6/25
+ * @version: 1.0
+ */
 @Slf4j
-public class PublishAckMessageStrategy implements MessageStrategy {
-
+@Component
+public class PublishHandler implements MqttHandler {
     @Override
-    public void sendResponseMessage(Channel channel, MqttMessage mqttMessage) {
+    public void handle(Channel channel, MqttMessage mqttMessage) {
         MqttPublishMessage mqttPublishMessage = (MqttPublishMessage) mqttMessage;
 
         int packageId = mqttPublishMessage.variableHeader().packetId();

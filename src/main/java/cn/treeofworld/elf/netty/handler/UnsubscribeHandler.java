@@ -1,14 +1,22 @@
-package cn.treeofworld.elf.netty.strategy;
+package cn.treeofworld.elf.netty.handler;
 
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+/**
+ * UnsubscribeHandler
+ *
+ * @author: elf
+ * @data: 2025/6/26
+ * @version: 1.0
+ */
 @Slf4j
-public class UnSubscribeAckMessageStrategy implements MessageStrategy {
-
+@Component
+public class UnsubscribeHandler implements MqttHandler {
     @Override
-    public void sendResponseMessage(Channel channel, MqttMessage mqttMessage) {
+    public void handle(Channel channel, MqttMessage mqttMessage) {
         log.info("UnSubscribeAckMessageStrategy");
 
         /*---------------------------解析接收的消息---------------------------*/
